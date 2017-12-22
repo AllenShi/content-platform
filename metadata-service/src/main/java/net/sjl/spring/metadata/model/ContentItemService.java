@@ -11,7 +11,7 @@ public class ContentItemService {
   @Autowired
   private ContentItemRepository repository;
 
-  public ContentItem retrieveContentItem(int id) {
+  public ContentItem retrieveContentItem(String id) {
     return repository.findById(id);
   }
 
@@ -19,16 +19,15 @@ public class ContentItemService {
     return repository.queryAll();
   }
 
-  public void addContentItem(ContentItem item) {
-    repository.save(item);
+  public ContentItem addContentItem(ContentItem item) {
+    return repository.create(item);
   } 
 
-  public void changeContentItem(ContentItem item) {
-    item.upgradeVersion();
-    repository.save(item);
+  public ContentItem changeContentItem(ContentItem item) {
+    return repository.update(item);
   }
 
-  public void deleteContentItem(int itemId) {
+  public void deleteContentItem(String itemId) {
     ContentItem item = new ContentItem();
     item.setId(itemId);
     repository.remove(item);

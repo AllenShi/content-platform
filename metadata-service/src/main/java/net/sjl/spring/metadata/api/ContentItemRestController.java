@@ -26,7 +26,7 @@ public class ContentItemRestController {
   }
 
   @GetMapping("/items/{itemId}")
-  public ContentItem getContentItem(@PathVariable("itemId") int itemId) {
+  public ContentItem getContentItem(@PathVariable("itemId") String itemId) {
     return service.retrieveContentItem(itemId);
   } 
 
@@ -37,13 +37,13 @@ public class ContentItemRestController {
   } 
 
   @DeleteMapping("/items/{itemId}")
-  public ResponseEntity deleteContentItem(@PathVariable("itemId") int itemId) {
+  public ResponseEntity deleteContentItem(@PathVariable("itemId") String itemId) {
     service.deleteContentItem(itemId);
     return new ResponseEntity(itemId, HttpStatus.OK);
   }
 
   @PutMapping("/items/{itemId}")
-  public ResponseEntity changeContentItem(@PathVariable("itemId") int itemId, @RequestBody ContentItem contentItem) {
+  public ResponseEntity changeContentItem(@PathVariable("itemId") String itemId, @RequestBody ContentItem contentItem) {
     service.changeContentItem(contentItem);
     return new ResponseEntity(contentItem, HttpStatus.OK);
   }
