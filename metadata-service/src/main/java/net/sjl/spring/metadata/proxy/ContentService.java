@@ -1,7 +1,10 @@
 package net.sjl.spring.metadata.proxy;
 
 import java.util.*;
+import java.io.ByteArrayInputStream;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,19 +25,25 @@ import net.sjl.spring.metadata.model.Content;
 public interface ContentService {
 
   @GetMapping("/contents")
-  public Collection<Content> getContents();
+  public Collection<Content> getContentObjects();
+
+  @GetMapping("/contents/item/{itemId}")
+  public Collection<Content> getContentObjectByItemId(@PathVariable("itemId") String itemId);
 
   @GetMapping("/contents/{contentId}")
-  public Content findContentById(@PathVariable("contentId") int contentId);
+  public Content getContentObjectById(@PathVariable("contentId") String contentId);
+
+  @GetMapping("/contents/{contentId}/content")
+  public Resource getContentOfObjectById(@PathVariable("contentId") String contentId);
 
   @PostMapping(value = "/contents", produces = "application/json")
   public ResponseEntity createContent(@RequestBody Content content);
 
   @DeleteMapping("/contents/{contentId}")
-  public ResponseEntity deleteContent(@PathVariable("contentId") int contentId);
+  public ResponseEntity deleteContent(@PathVariable("contentId") String contentId);
 
   @PutMapping(value = "/contents/{contentId}", consumes = "application/json")
-  public ResponseEntity changeContent(@PathVariable("contentId") int  contentId, @RequestBody Content content);
+  public ResponseEntity checkInContent(@PathVariable("contentId") String  contentId, @RequestBody Content content);
 
   @Component
   public static class ContentServiceFallback implements ContentService {
@@ -42,28 +51,36 @@ public interface ContentService {
     private static List<Content> contentList = new ArrayList<>();
 
     static {
-      contentList.add(new Content("blue", "file:///home/allen/Documents/dummy1.txt", 25));
-      contentList.add(new Content("yello", "file:///home/allen/Documents/dummy2.txt", 30));
-      contentList.add(new Content("red", "file:///home/allen/Documents/dummy3.txt", 35));
+      contentList.add(new Content("blue", "file:///home/allen/Documents/dummy1.txt", "b"));
+      contentList.add(new Content("yello", "file:///home/allen/Documents/dummy2.txt", "y"));
+      contentList.add(new Content("red", "file:///home/allen/Documents/dummy3.txt", "r"));
     }
 
-    public Collection<Content> getContents() {
+    public Collection<Content> getContentObjects() {
       return contentList;
     }
 
-    public Content findContentById(@PathVariable("contentId") int contentId) {
+    public Collection<Content> getContentObjectByItemId(@PathVariable("itemId") String itemId) {
+      return contentList;
+    }
+
+    public Content getContentObjectById(@PathVariable("contentId") String contentId) {
       return contentList.get(0);
+    }
+
+    public Resource getContentOfObjectById(@PathVariable("contentId") String contentId) {
+      return new InputStreamResource(new ByteArrayInputStream("hello".getBytes())); 
     }
 
     public ResponseEntity createContent(@RequestBody Content content) {
       return new ResponseEntity(HttpStatus.PARTIAL_CONTENT);
     }
 
-    public ResponseEntity deleteContent(@PathVariable("contentId") int contentId) {
+    public ResponseEntity deleteContent(@PathVariable("contentId") String contentId) {
       return new ResponseEntity(HttpStatus.NOT_MODIFIED);
     }
 
-    public ResponseEntity changeContent(@PathVariable("contentId") int  contentId, @RequestBody Content content) {
+    public ResponseEntity checkInContent(@PathVariable("contentId") String contentId, @RequestBody Content content) {
       return new ResponseEntity(HttpStatus.NOT_MODIFIED);
     }
 
