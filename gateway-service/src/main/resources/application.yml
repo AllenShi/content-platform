@@ -13,10 +13,10 @@ zuul:
   prefix: /api/v1
   routes:
     metadata:
-      path: /items/**
+      path: /ms/**
       serviceId: metadata-service
     content:
-      path: /contents/**
+      path: /cs/**
       serviceId: content-service 
 
 ribbon:

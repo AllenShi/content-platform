@@ -37,7 +37,12 @@ public class ContentRestController {
   
   @GetMapping("/contents")
   public Collection<Content> getContents() {
-    return service.retrieveAllContent();
+    Collection<Content> contentList = service.retrieveAllContent();
+
+    if(contentList == null || contentList.size() == 0) 
+      throw new ContentNotFoundException("all");
+
+    return contentList;
   }
 
   @GetMapping("/contents/{contentId}")
