@@ -28,7 +28,7 @@ public interface ContentService {
   public Collection<Content> getContentObjects();
 
   @GetMapping("/contents/item/{itemId}")
-  public Collection<Content> getContentObjectByItemId(@PathVariable("itemId") String itemId);
+  public Collection<Content> getContentObjectsByItemId(@PathVariable("itemId") String itemId);
 
   @GetMapping("/contents/{contentId}")
   public Content getContentObjectById(@PathVariable("contentId") String contentId);
@@ -41,6 +41,9 @@ public interface ContentService {
 
   @DeleteMapping("/contents/{contentId}")
   public ResponseEntity deleteContent(@PathVariable("contentId") String contentId);
+
+  @DeleteMapping("/contents/item/{itemId}")
+  public ResponseEntity deleteContentOjectsByItemId(@PathVariable("itemId") String itemId);
 
   @PutMapping(value = "/contents/{contentId}", consumes = "application/json")
   public ResponseEntity checkInContent(@PathVariable("contentId") String  contentId, @RequestBody Content content);
@@ -60,7 +63,7 @@ public interface ContentService {
       return contentList;
     }
 
-    public Collection<Content> getContentObjectByItemId(@PathVariable("itemId") String itemId) {
+    public Collection<Content> getContentObjectsByItemId(@PathVariable("itemId") String itemId) {
       return contentList;
     }
 
@@ -77,6 +80,10 @@ public interface ContentService {
     }
 
     public ResponseEntity deleteContent(@PathVariable("contentId") String contentId) {
+      return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+    }
+
+    public ResponseEntity deleteContentOjectsByItemId(@PathVariable("itemId") String itemId) {
       return new ResponseEntity(HttpStatus.NOT_MODIFIED);
     }
 

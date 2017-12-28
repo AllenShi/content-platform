@@ -12,4 +12,5 @@ public interface ContentRepository {
   public Set<Content> updateAll(Set<Content> contentSet);
   public void remove(Content content);
   public void removeAll(Set<Content> contentSet);
+  public void removeAllByItemId(String itemId);
 }

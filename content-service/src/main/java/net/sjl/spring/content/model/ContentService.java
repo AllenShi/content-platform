@@ -54,5 +54,9 @@ public class ContentService {
     content.setId(contentId);
     repository.remove(content);
   }
+
+  public void deleteByItemId(String itemId) {
+    repository.removeAllByItemId(itemId);
+  }
   
 }

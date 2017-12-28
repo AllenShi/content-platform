@@ -8,6 +8,10 @@ import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+import org.apache.commons.lang3.Validate;
+
+@Repository
 public class DefaultContentItemRepository implements ContentItemRepository {
   private static Map<String, ContentItem> contentItemStore = new ConcurrentHashMap<>();
   
@@ -20,7 +24,7 @@ public class DefaultContentItemRepository implements ContentItemRepository {
   }
 
   public ContentItem create(ContentItem contentItem) {
-    if(contentItem == null) return null;
+    Validate.notNull(contentItem, "The contentItem must not be null");
 
     String id = contentItem.getId();
     String vsId = contentItem.getVsId();
@@ -33,12 +37,23 @@ public class DefaultContentItemRepository implements ContentItemRepository {
       vsId = UUID.randomUUID().toString();
       contentItem.setVsId(vsId);
     }
+
     contentItemStore.put(id, contentItem);
     return contentItem;
   }
 
   public ContentItem update(ContentItem contentItem) {
-    if(contentItem == null) return null;
+    Validate.notNull(contentItem, "The contentItem must not be null");
+    Validate.notEmpty(contentItem.getId(), "The contentItem id must not be empty");
+
+    contentItemStore.put(contentItem.getId(), contentItem);
+    return contentItem;
+  }
+
+  public ContentItem checkIn(ContentItem contentItem, Content content) {
+    Validate.notNull(contentItem, "The contentItem must not be null");
+    Validate.notNull(content, "The content must not be null");
+    Validate.notEmpty(contentItem.getId(), "The contentItem id must not be empty");
 
     ContentItem c = new ContentItem(contentItem);
     String id = UUID.randomUUID().toString();
@@ -55,12 +70,12 @@ public class DefaultContentItemRepository implements ContentItemRepository {
   }
 
   public Set<ContentItem> createAll(Set<ContentItem> contentItems) {
-    if(contentItems == null) return null;
+    Validate.notNull(contentItems, "The contentItems must not be null");
     return contentItems.stream().map(c -> create(c)).collect(Collectors.toSet());
   }
 
   public Set<ContentItem> updateAll(Set<ContentItem> contentItems) {
-    if(contentItems == null) return null;
+    Validate.notNull(contentItems, "The contentItems must not be null");
     return contentItems.stream().map(c -> update(c)).collect(Collectors.toSet());
   }
   
@@ -70,7 +85,7 @@ public class DefaultContentItemRepository implements ContentItemRepository {
   }
 
   public void removeAll(Set<ContentItem> contentItems) {
-    if(contentItems == null) return;
+    Validate.notNull(contentItems, "The contentItems must not be null");
     contentItems.stream().forEach(this::remove);
   }
 

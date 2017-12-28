@@ -1,9 +1,12 @@
 package net.sjl.spring.metadata.model;
 
 import java.util.Collection;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired; 
+
+import net.sjl.spring.metadata.proxy.ContentService;
 
 @Service
 public class ContentItemService {
@@ -11,12 +14,25 @@ public class ContentItemService {
   @Autowired
   private ContentItemRepository repository;
 
+  @Autowired
+  private ContentService contentService;
+
   public ContentItem retrieveContentItem(String id) {
-    return repository.findById(id);
+    ContentItem item =  repository.findById(id);
+    Collection<Content> contentElements = contentService.getContentObjectsByItemId(id);
+    item.setContentElements(new ArrayList<Content>(contentElements));
+    return item;
   }
 
   public Collection<ContentItem> retrieveAllContentItems() {
-    return repository.queryAll();
+    Collection<ContentItem> items = repository.queryAll();
+    if(items != null) {
+      items.stream().forEach(item -> {
+        Collection<Content> contentElements = contentService.getContentObjectsByItemId(item.getId());
+        item.setContentElements(new ArrayList<Content>(contentElements)); 
+      });
+    }
+    return items;
   }
 
   public ContentItem addContentItem(ContentItem item) {
@@ -24,12 +40,13 @@ public class ContentItemService {
   } 
 
   public ContentItem changeContentItem(ContentItem item) {
-    return repository.update(item);
+    ContentItem uitem = repository.update(item);
+    return uitem;
   }
 
   public void deleteContentItem(String itemId) {
-    ContentItem item = new ContentItem();
-    item.setId(itemId);
+    ContentItem item = retrieveContentItem(itemId);
+    contentService.deleteContentOjectsByItemId(itemId);
     repository.remove(item);
   }
 

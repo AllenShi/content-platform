@@ -66,11 +66,13 @@ public class ContentRestController {
   @PostMapping("/contents")
   public ResponseEntity createContent(@ModelAttribute ContentTransfer contentTransfer) {
     URI uri = null;
+
     try {
       uri = new URI(contentTransfer.getUri());
     } catch(Exception e) {
       return new ResponseEntity("The param uri is invalid", HttpStatus.BAD_REQUEST);
     }
+
     Content content = new Content(null, contentTransfer.getItemId(), uri);
     try(InputStream input = contentTransfer.getFile().getInputStream()) {
       Content newContent = service.addNewContent(content, input);
@@ -83,11 +85,13 @@ public class ContentRestController {
   @PutMapping("/contents/{contentId}")
   public ResponseEntity checkInContent(@PathVariable("contentId") String contentId, @ModelAttribute ContentTransfer contentTransfer) {
     URI uri = null;
+
     try {
       uri = new URI(contentTransfer.getUri());
     } catch(Exception e) {
       return new ResponseEntity("The param uri is invalid", HttpStatus.BAD_REQUEST);
     }
+
     Content content = new Content(contentId, contentTransfer.getItemId(), uri);
     try(InputStream input = contentTransfer.getFile().getInputStream()) {
       Content updatedContent = service.checkInContent(content, input);
@@ -99,6 +103,12 @@ public class ContentRestController {
 
   @DeleteMapping("/contents/{contentId}")
   public ResponseEntity deleteContent(@PathVariable("contentId") String contentId) {
+    service.deleteContent(contentId);
+    return new ResponseEntity(contentId, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/contents/item/{itemId}")
+  public ResponseEntity deleteContentObjectsByItemId(@PathVariable("contentId") String contentId) {
     service.deleteContent(contentId);
     return new ResponseEntity(contentId, HttpStatus.OK);
   }

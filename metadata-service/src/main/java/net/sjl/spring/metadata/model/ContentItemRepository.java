@@ -7,6 +7,7 @@ public interface ContentItemRepository {
   public Collection<ContentItem> queryAll();
   public ContentItem create(ContentItem contentItem);
   public ContentItem update(ContentItem contentItem);
+  public ContentItem checkIn(ContentItem contentItem, Content content);
   public Set<ContentItem> createAll(Set<ContentItem> contentItems);
   public Set<ContentItem> updateAll(Set<ContentItem> contentItems);
   public void remove(ContentItem contentItem);

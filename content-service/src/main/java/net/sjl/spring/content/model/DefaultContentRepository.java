@@ -8,6 +8,9 @@ import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
 import java.net.URI;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class DefaultContentRepository implements ContentRepository {
   private final static Map<String, Content> contentStore = new ConcurrentHashMap<>();
 
@@ -68,5 +71,9 @@ public class DefaultContentRepository implements ContentRepository {
   public void removeAll(Set<Content> contentSet) {
     if(contentSet == null) return;
     contentSet.stream().forEach(this::remove);
+  }
+
+  public void removeAllByItemId(String itemId) {
+    contentStore.entrySet().removeIf(entry -> entry.getValue().getItemId() == itemId); 
   }
 }
