@@ -26,7 +26,7 @@ public class Content {
   private String itemId;
   private ZonedDateTime creationDate;
   private ZonedDateTime lastModifiedDate;
-  private StorageArea storage;
+  private transient StorageArea storage;
 
   public Content(String id, String itemId, URI uri) {
     this(id, itemId, uri, -1, null);

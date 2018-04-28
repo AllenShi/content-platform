@@ -15,6 +15,12 @@
 	<description>Demo project for Spring Boot</description>
 
 	<dependencies>
+		<!-- module dependency, run mvn install -->
+		<dependency>
+			<groupId>net.sjl</groupId>
+			<artifactId>content-common</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -54,7 +60,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			</dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

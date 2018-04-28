@@ -19,7 +19,7 @@ import net.sjl.spring.metadata.model.Content;
 
 @FeignClient(
   name = "content-service",
-  url = "http://localhost:2223", 
+  url = "http://content-service:2223", 
   fallback = ContentService.ContentServiceFallback.class
 )
 public interface ContentService {

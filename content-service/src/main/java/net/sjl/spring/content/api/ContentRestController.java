@@ -1,33 +1,26 @@
 package net.sjl.spring.content.api;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collection;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.net.URI;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.util.Collection;
 
-import net.sjl.spring.content.model.Content;
-import net.sjl.spring.content.model.ContentService;
-import net.sjl.spring.content.model.ContentTransfer;
-import net.sjl.spring.content.exception.ContentNotFoundException;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import net.sjl.spring.content.exception.ContentNotFoundException;
+import net.sjl.spring.content.model.Content;
+import net.sjl.spring.content.model.ContentService;
+import net.sjl.spring.content.model.ContentTransfer;
 
 @RestController
 public class ContentRestController {
