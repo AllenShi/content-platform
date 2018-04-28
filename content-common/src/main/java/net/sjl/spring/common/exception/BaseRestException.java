@@ -10,9 +10,9 @@ public class BaseRestException extends RuntimeException {
 	private HttpStatus statusCode;
 	private BaseRuntimeException exception;
 	
-	public BaseRestException(HttpStatus statusCode, CategoryCode categoryCode, String message) {
+	public BaseRestException(HttpStatus statusCode, CategoryCode categoryCode, int errorCode, String message) {
 		this.statusCode = statusCode;
-		this.exception = new BaseRuntimeException(categoryCode, -1, message);
+		this.exception = new BaseRuntimeException(categoryCode, errorCode, message);
 	}
 	
 	public BaseRestException(HttpStatus statusCode, BaseRuntimeException exception) {
